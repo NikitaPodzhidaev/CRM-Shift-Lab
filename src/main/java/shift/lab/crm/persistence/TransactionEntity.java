@@ -22,7 +22,8 @@ public class TransactionEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "seller", nullable = false)
+    @ManyToOne
+    @JoinColumn(name = "seller_id")
     private SellerEntity seller;
 
     @Column(name = "amount", nullable = false)
