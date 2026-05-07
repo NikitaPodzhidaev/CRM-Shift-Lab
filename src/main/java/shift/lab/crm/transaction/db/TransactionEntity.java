@@ -31,7 +31,7 @@ public class TransactionEntity {
     private BigDecimal amount;
 
     @Column(name = "payment_type", nullable = false)
-    @Enumerated(EnumType.STRING)
+    //@Enumerated(EnumType.STRING)
     private String paymentType;
 
     @Column(name = "transaction_date", nullable = false)

@@ -22,7 +22,7 @@ public class Transaction {
     public Transaction(Long id, Seller seller, BigDecimal amount, String paymentType, LocalDateTime transactionDate) {
         validateSeller(seller);
         validateAmount(amount);
-        validatePaymentType(paymentType);
+        //validatePaymentType(paymentType);
         validateTransactionDate(transactionDate);
         this.id = id;
         this.seller = seller;
@@ -42,6 +42,8 @@ public class Transaction {
         }
     }
 
+
+    /*
     private void validatePaymentType(String paymentType){
         try {
             PaymentType.valueOf(paymentType);
@@ -49,6 +51,8 @@ public class Transaction {
             throw new IllegalArgumentException("Payment type: " + paymentType + " is not valid");
         }
     }
+    */
+
     private void validateTransactionDate(LocalDateTime transactionDate) {
         if(transactionDate == null) throw new IllegalArgumentException("Transaction date must not be null");
     }
