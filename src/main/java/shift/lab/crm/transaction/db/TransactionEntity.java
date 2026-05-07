@@ -1,10 +1,11 @@
-package shift.lab.crm.persistence;
+package shift.lab.crm.transaction.db;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import shift.lab.crm.seller.db.SellerEntity;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;

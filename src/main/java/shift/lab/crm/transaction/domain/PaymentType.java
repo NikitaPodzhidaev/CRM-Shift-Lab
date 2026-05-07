@@ -1,4 +1,4 @@
-package shift.lab.crm.domain;
+package shift.lab.crm.transaction.domain;
 
 public enum PaymentType {
     CASH,

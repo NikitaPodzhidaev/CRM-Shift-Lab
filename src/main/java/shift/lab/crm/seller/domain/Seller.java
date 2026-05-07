@@ -1,4 +1,4 @@
-package shift.lab.crm.domain;
+package shift.lab.crm.seller.domain;
 
 import lombok.Getter;
 

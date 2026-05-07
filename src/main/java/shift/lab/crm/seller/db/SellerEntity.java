@@ -1,4 +1,4 @@
-package shift.lab.crm.persistence;
+package shift.lab.crm.seller.db;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

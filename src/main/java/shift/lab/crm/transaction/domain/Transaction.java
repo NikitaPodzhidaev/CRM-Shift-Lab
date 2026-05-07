@@ -1,7 +1,7 @@
-package shift.lab.crm.domain;
+package shift.lab.crm.transaction.domain;
 
 import lombok.Getter;
-import lombok.Setter;
+import shift.lab.crm.seller.domain.Seller;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
