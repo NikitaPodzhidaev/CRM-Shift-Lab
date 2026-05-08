@@ -44,14 +44,14 @@ public class SellerService {
                 .toList();
     }
 
-    public Seller updateSeller(Long id, Seller sellerToUpdate){
+    public Seller updateSeller(Long id, String name, String contactInfo){
         SellerEntity existingEntity = sellerRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Not found seller by id = " + id));
 
         SellerEntity updatedEntity = SellerEntity.builder()
                 .id(existingEntity.getId())
-                .name(sellerToUpdate.name())
-                .contactInfo(sellerToUpdate.contactInfo())
+                .name(name)
+                .contactInfo(contactInfo)
                 .registrationDate(existingEntity.getRegistrationDate())
                 .build();
 
