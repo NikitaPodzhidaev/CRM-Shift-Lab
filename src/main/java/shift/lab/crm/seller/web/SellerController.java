@@ -27,10 +27,10 @@ public class SellerController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public SellerResponse createSeller(@Valid @RequestBody CreateSellerRequest request){
-        Seller newSeller = sellerService.createSeller(request.name(), request.contactInfo());
-        return sellerDtoMapper.toResponse(newSeller);
-    }
+        public SellerResponse createSeller(@RequestBody @Valid CreateSellerRequest request){
+            Seller newSeller = sellerService.createSeller(request.name(), request.contactInfo());
+            return sellerDtoMapper.toResponse(newSeller);
+        }
 
     @GetMapping("/{id}")
     public SellerResponse getSellerById(
@@ -69,7 +69,5 @@ public class SellerController {
     ){
         sellerService.deleteSeller(id);
     }
-
-
 
 }

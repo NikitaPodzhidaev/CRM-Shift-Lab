@@ -1,6 +1,7 @@
 package shift.lab.crm.seller.db;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Min;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -17,6 +18,7 @@ public class SellerEntity {
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Min(value = 1, message = "ID must be > 0")
     private Long id;
 
     @Column(name = "name", nullable = false)

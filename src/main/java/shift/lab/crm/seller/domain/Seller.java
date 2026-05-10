@@ -1,5 +1,7 @@
 package shift.lab.crm.seller.domain;
 
+import shift.lab.crm.common.exception.DomainValidationException;
+
 import java.time.LocalDateTime;
 
 public record Seller(Long id, String name, String contactInfo, LocalDateTime registrationDate) {
@@ -17,19 +19,19 @@ public record Seller(Long id, String name, String contactInfo, LocalDateTime reg
 
     private void validateName(String name) {
         if (name == null || name.isBlank()) {
-            throw new IllegalArgumentException("Seller name must not be blank");
+            throw new DomainValidationException("Seller name must not be blank");
         }
     }
 
     private void validateContactInfo(String contactInfo) {
         if (contactInfo == null || contactInfo.isBlank()) {
-            throw new IllegalArgumentException("Contact info must not be blank");
+            throw new DomainValidationException("Contact info must not be blank");
         }
     }
 
     private void validateRegistrationDate(LocalDateTime registrationDate) {
         if (registrationDate == null) {
-            throw new IllegalArgumentException("Registration date must not be null");
+            throw new DomainValidationException("Registration date must not be null");
         }
     }
 }
