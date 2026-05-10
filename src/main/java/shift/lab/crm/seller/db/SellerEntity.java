@@ -18,7 +18,6 @@ public class SellerEntity {
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Min(value = 1, message = "ID must be > 0")
     private Long id;
 
     @Column(name = "name", nullable = false)
