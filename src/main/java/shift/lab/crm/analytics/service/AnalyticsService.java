@@ -9,6 +9,7 @@ import shift.lab.crm.analytics.domain.SellerAmountLessThanProjection;
 import shift.lab.crm.analytics.domain.TimeRange;
 import shift.lab.crm.analytics.domain.TimeType;
 import shift.lab.crm.analytics.domain.TopSellerProjection;
+import shift.lab.crm.analytics.exception.InvalidPeriodException;
 import shift.lab.crm.analytics.mapper.AnalyzedSellerDtoMapper;
 import shift.lab.crm.analytics.period.TimeTypeRegistry;
 import shift.lab.crm.analytics.web.dto.response.SellerLessThanResponse;
@@ -55,7 +56,9 @@ public class AnalyticsService {
     public List<SellerLessThanResponse> getSellersTotalAmountLessThanByPeriod(LocalDateTime startPeriod,
                                                                               LocalDateTime endPeriod,
                                                                               BigDecimal amount) {
-        //if(startPeriod.isAfter(endPeriod)) throw new Time
+        if(startPeriod.isAfter(endPeriod)){
+            throw new InvalidPeriodException("Start period must be BEFORE endPeriod");
+        }
         TimeRange timeRange = new TimeRange(startPeriod, endPeriod);
         List<SellerAmountLessThanProjection> sellersAmountLess =
                 analyticsRepository.findSellersWithTotalAmountLessThanByPeriod(
@@ -66,7 +69,7 @@ public class AnalyticsService {
 
         return sellersAmountLess.stream()
                 .map(each ->
-                        analyzedSellerDtoMapper.toSellerLessThanResponse(each, timeRange)
+                        analyzedSellerDtoMapper.toSellerLessThanResponse(each, amount, timeRange)
                 )
                 .toList();
 

@@ -1,6 +1,7 @@
 package shift.lab.crm.transaction.web.dto.request;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 
 import java.math.BigDecimal;
@@ -8,10 +9,10 @@ import java.math.BigDecimal;
 public record CreateTransactionRequest(
 
 
-        @NotBlank(message = "Seller id must not be blank")
+        @NotNull(message = "Seller id must not be null")
         Long sellerId,
 
-        @NotBlank(message = "Amount must not be blank")
+        @NotNull(message = "Amount must not be null")
         @Positive(message = "Amount must be more than 0")
         BigDecimal amount,
 

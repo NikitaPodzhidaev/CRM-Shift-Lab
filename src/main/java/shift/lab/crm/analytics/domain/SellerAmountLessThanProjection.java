@@ -7,7 +7,4 @@ public interface SellerAmountLessThanProjection {
     Long getSellerId();
     String getSellerName();
     BigDecimal getTotalAmount();
-    BigDecimal getComparedToAmount();
-    LocalDateTime getStartTime();
-    LocalDateTime getEndTime();
 }

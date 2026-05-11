@@ -1,15 +1,20 @@
 package shift.lab.crm.common.exception;
 
 import jakarta.persistence.EntityNotFoundException;
+import org.apache.coyote.Response;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.validation.BindException;
+import org.springframework.validation.FieldError;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.servlet.NoHandlerFoundException;
+import shift.lab.crm.analytics.exception.InvalidPeriodException;
+import shift.lab.crm.transaction.exception.UnknownPaymentTypeException;
 
 import java.time.LocalDateTime;
 import java.util.Arrays;
@@ -28,17 +33,23 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<ErrorResponseDto> handleArgumentNotValid(MethodArgumentNotValidException exc){
-        List<String> errorDetails = exc.getBindingResult()
+    public ResponseEntity<ErrorResponseDto> handleArgumentNotValid(MethodArgumentNotValidException exc) {
+        List<String> details = exc.getBindingResult()
                 .getFieldErrors()
                 .stream()
-                .map(error -> error.getField() + ": " + error.getDefaultMessage())
+                .map(error -> {
+                    if ("timeType".equals(error.getField())) {
+                        return "timeType must be one of: DAY, MONTH, QUARTER, YEAR";
+                    }
+
+                    return error.getField() + ": " + error.getDefaultMessage();
+                })
                 .toList();
 
         return buildError(
                 HttpStatus.BAD_REQUEST,
                 "Bad request",
-                errorDetails
+                details
         );
     }
 
@@ -65,7 +76,7 @@ public class GlobalExceptionHandler {
         return buildError(
                 HttpStatus.BAD_REQUEST,
                 "Bad request",
-                List.of(exception.getMessage())
+                List.of(exception.getTitleMessageCode())
         );
     }
 
@@ -102,6 +113,24 @@ public class GlobalExceptionHandler {
         );
     }
 
+    @ExceptionHandler(UnknownPaymentTypeException.class)
+    public ResponseEntity<ErrorResponseDto> handleUnknownPaymentType(UnknownPaymentTypeException exception){
+        return buildError(
+                HttpStatus.BAD_REQUEST,
+                "Bad request",
+                List.of(exception.getMessage())
+        );
+    }
+
+    @ExceptionHandler(InvalidPeriodException.class)
+    public ResponseEntity<ErrorResponseDto> handleInvalidPeriod(InvalidPeriodException exception){
+        return buildError(
+                HttpStatus.BAD_REQUEST,
+                "Bad request",
+                List.of(exception.getMessage())
+        );
+    }
+
     private ResponseEntity<ErrorResponseDto> buildError(
             HttpStatus status,
             String message,
@@ -115,6 +144,7 @@ public class GlobalExceptionHandler {
         );
         return ResponseEntity.status(status).body(errorResponseDto);
     }
+
 
     /* might be useless
     @ExceptionHandler(UnrecognizedPropertyException.class)
