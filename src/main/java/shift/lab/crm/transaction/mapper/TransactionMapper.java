@@ -18,11 +18,11 @@ public class TransactionMapper {
 
     public TransactionEntity toEntity(Transaction transaction, SellerEntity sellerEntity) {
         return new TransactionEntity(
-                transaction.getId(),
+                transaction.id(),
                 sellerEntity,
-                transaction.getAmount(),
-                transaction.getPaymentType(),
-                transaction.getTransactionDate()
+                transaction.amount(),
+                transaction.paymentType(),
+                transaction.transactionDate()
         );
     }
 

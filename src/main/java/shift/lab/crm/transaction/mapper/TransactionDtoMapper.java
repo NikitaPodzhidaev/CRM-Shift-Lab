@@ -9,11 +9,11 @@ public class TransactionDtoMapper {
 
     public TransactionResponse toResponse(Transaction transaction){
         return new TransactionResponse(
-                transaction.getId(),
-                transaction.getSeller(),
-                transaction.getAmount(),
-                transaction.getPaymentType(),
-                transaction.getTransactionDate()
+                transaction.id(),
+                transaction.sellerId(),
+                transaction.amount(),
+                transaction.paymentType(),
+                transaction.transactionDate()
         );
     }
 
