@@ -8,13 +8,11 @@ import shift.lab.crm.seller.db.SellerRepository;
 import shift.lab.crm.transaction.db.TransactionEntity;
 import shift.lab.crm.transaction.db.TransactionRepository;
 import shift.lab.crm.transaction.domain.Transaction;
-import shift.lab.crm.transaction.exception.UnknownPaymentTypeException;
 import shift.lab.crm.transaction.mapper.TransactionMapper;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Set;
 
 @Service
 public class TransactionService {
@@ -53,7 +51,7 @@ public class TransactionService {
     }
 
     public List<Transaction> getAllTransactions() {
-        return transactionRepository.findAll()
+        return transactionRepository.findAllWithSeller()
                 .stream()
                 .map(transactionMapper::toDomain)
                 .toList();
@@ -63,7 +61,7 @@ public class TransactionService {
         if (!sellerRepository.existsById(sellerId)) {
             throw new EntityNotFoundException("Not found seller by id = " + sellerId);
         }
-        return transactionRepository.findBySeller_Id(sellerId)
+        return transactionRepository.findBySellerIdWithSeller(sellerId)
                 .stream()
                 .map(transactionMapper::toDomain)
                 .toList();
