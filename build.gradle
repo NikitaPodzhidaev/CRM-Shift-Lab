@@ -47,4 +47,5 @@ jacocoTestReport {
 		xml.required = true
 		csv.required = false
 	}
+
 }

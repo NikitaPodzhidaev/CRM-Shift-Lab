@@ -1,12 +1,9 @@
 package shift.lab.crm.common.exception;
 
 import jakarta.persistence.EntityNotFoundException;
-import org.apache.coyote.Response;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
-import org.springframework.validation.BindException;
-import org.springframework.validation.FieldError;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -17,7 +14,6 @@ import shift.lab.crm.analytics.exception.InvalidPeriodException;
 import shift.lab.crm.transaction.exception.UnknownPaymentTypeException;
 
 import java.time.LocalDateTime;
-import java.util.Arrays;
 import java.util.List;
 
 @RestControllerAdvice
