@@ -27,21 +27,21 @@ public class SellerController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-        public SellerResponse createSeller(@RequestBody @Valid CreateSellerRequest request){
-            Seller newSeller = sellerService.createSeller(request.name(), request.contactInfo());
-            return sellerDtoMapper.toResponse(newSeller);
-        }
+    public SellerResponse createSeller(@RequestBody @Valid CreateSellerRequest request) {
+        Seller newSeller = sellerService.createSeller(request.name(), request.contactInfo());
+        return sellerDtoMapper.toResponse(newSeller);
+    }
 
     @GetMapping("/{id}")
     public SellerResponse getSellerById(
             @PathVariable("id") Long id
-    ){
+    ) {
         Seller searchedSeller = sellerService.getSellerById(id);
         return sellerDtoMapper.toResponse(searchedSeller);
     }
 
     @GetMapping
-    public List<SellerResponse> getAllSellers(){
+    public List<SellerResponse> getAllSellers() {
         return sellerService.getAllSellers().stream()
                 .map(sellerDtoMapper::toResponse)
                 .toList();
@@ -53,7 +53,7 @@ public class SellerController {
     public SellerResponse updateSeller(
             @PathVariable Long id,
             @Valid @RequestBody UpdateSellerRequest request
-    ){
+    ) {
         Seller updatedSeller = sellerService.updateSeller(
                 id,
                 request.name(),
@@ -66,7 +66,7 @@ public class SellerController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteSeller(
             @PathVariable Long id
-    ){
+    ) {
         sellerService.deleteSeller(id);
     }
 

@@ -5,7 +5,6 @@ import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 import shift.lab.crm.seller.db.SellerEntity;
 import shift.lab.crm.seller.db.SellerRepository;
-import shift.lab.crm.seller.domain.Seller;
 import shift.lab.crm.transaction.db.TransactionEntity;
 import shift.lab.crm.transaction.db.TransactionRepository;
 import shift.lab.crm.transaction.domain.Transaction;
