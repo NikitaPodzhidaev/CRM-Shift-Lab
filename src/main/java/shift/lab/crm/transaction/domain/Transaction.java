@@ -15,12 +15,18 @@ public record Transaction(Long id, Long sellerId, BigDecimal amount, String paym
     }
 
     public Transaction {
+        validateSellerId(sellerId);
         validateAmount(amount);
         validatePaymentType(paymentType);
         validateTransactionDate(transactionDate);
     }
 
+    private void validateSellerId(Long sellerId) {
+        if(sellerId == null) throw new DomainValidationException("Seller id must not be null");
+    }
+
     private void validatePaymentType(String paymentType){
+        if(paymentType == null) throw new DomainValidationException("Payment type must not be null");
         Set<String> validPaymentTypeSet = Set.of("CASH", "CARD", "TRANSFER");
         if(!validPaymentTypeSet.contains(paymentType)){
             throw new UnknownPaymentTypeException("Unknown payment type: " + paymentType + ". Payment type must be in: " +

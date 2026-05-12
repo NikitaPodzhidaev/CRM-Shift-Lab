@@ -8,11 +8,13 @@ import shift.lab.crm.seller.db.SellerRepository;
 import shift.lab.crm.transaction.db.TransactionEntity;
 import shift.lab.crm.transaction.db.TransactionRepository;
 import shift.lab.crm.transaction.domain.Transaction;
+import shift.lab.crm.transaction.exception.UnknownPaymentTypeException;
 import shift.lab.crm.transaction.mapper.TransactionMapper;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class TransactionService {
@@ -32,7 +34,9 @@ public class TransactionService {
                                          BigDecimal amount,
                                          String paymentType) {
         LocalDateTime transactionDate = LocalDateTime.now();
-
+        if(!Set.of("CASH", "CARD", "TRANSFER").contains(paymentType)){
+            throw new UnknownPaymentTypeException("Unknown payment type: " + paymentType);
+        }
         SellerEntity sellerEntity = sellerRepository.findById(sellerId)
                 .orElseThrow(() -> new EntityNotFoundException("Not found seller by id = " + sellerId));
         if (sellerEntity.isDeleted()) throw new EntityNotFoundException("Not found active seller by id = " + sellerId);
