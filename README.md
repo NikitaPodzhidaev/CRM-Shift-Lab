@@ -56,8 +56,8 @@
 ### 1. Клонировать проект
 
 ```bash
-git clone <ссылка-на-репозиторий>
-cd crm
+git clone https://github.com/NikitaPodzhidaev/CRM-Shift-Lab.git
+cd CRM-Shift-Lab
 ```
 
 ### 2. Запустить PostgreSQL через Docker Compose
@@ -215,7 +215,7 @@ GET /transactions?sellerId=1
 #### Получить самого продуктивного продавца за период
 
 ```http
-GET /analytics/sellers/top-seller
+GET /analytics/top-seller
 ```
 
 Параметры:
@@ -228,7 +228,7 @@ GET /analytics/sellers/top-seller
 Пример:
 
 ```http
-GET /analytics/sellers/top-seller?timeType=MONTH&dateTime=2026-05-11T00:00:00
+GET /analytics/top-seller?timeType=MONTH&dateTime=2026-05-11T00:00:00
 ```
 
 Пример ответа:
@@ -352,6 +352,7 @@ build/reports/jacoco/test/html/index.html
 - установлен JDK 21;
 - порт PostgreSQL из `docker-compose.yml` свободен;
 - порт `8080` свободен.
+- Порт `5433` свободен для базы данных.
 
 ## Проверка API после запуска
 
