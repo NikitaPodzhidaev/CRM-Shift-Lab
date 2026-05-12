@@ -32,14 +32,13 @@ public class TransactionService {
 
     public Transaction createTransaction(Long sellerId,
                                          BigDecimal amount,
-                                         String paymentType){
+                                         String paymentType) {
         LocalDateTime transactionDate = LocalDateTime.now();
-        if(!Set.of("CASH", "CARD", "TRANSFER").contains(paymentType)){
-            throw new UnknownPaymentTypeException("Unknown payment type: " + paymentType + ". Payment type must be in: " +
-                    "CASH, CARD, TRANSFER");
-        }
+
         SellerEntity sellerEntity = sellerRepository.findById(sellerId)
                 .orElseThrow(() -> new EntityNotFoundException("Not found seller by id = " + sellerId));
+        if (sellerEntity.isDeleted()) throw new EntityNotFoundException("Not found active seller by id = " + sellerId);
+
         Transaction transaction = new Transaction(sellerId, amount, paymentType, transactionDate);
         TransactionEntity transactionEntity = transactionMapper.toEntity(transaction, sellerEntity);
         TransactionEntity savedTransactionEntity = transactionRepository.save(transactionEntity);
@@ -47,21 +46,21 @@ public class TransactionService {
 
     }
 
-    public Transaction getTransactionById(Long id){
+    public Transaction getTransactionById(Long id) {
         TransactionEntity transactionEntity = transactionRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Not found transaction by id = " + id));
         return transactionMapper.toDomain(transactionEntity);
     }
 
-    public List<Transaction> getAllTransactions(){
+    public List<Transaction> getAllTransactions() {
         return transactionRepository.findAll()
                 .stream()
                 .map(transactionMapper::toDomain)
                 .toList();
     }
 
-    public List<Transaction> getTransactionsBySellerId(Long sellerId){
-        if(!sellerRepository.existsById(sellerId)){
+    public List<Transaction> getTransactionsBySellerId(Long sellerId) {
+        if (!sellerRepository.existsById(sellerId)) {
             throw new EntityNotFoundException("Not found seller by id = " + sellerId);
         }
         return transactionRepository.findBySeller_Id(sellerId)

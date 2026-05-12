@@ -1,7 +1,6 @@
 package shift.lab.crm.seller.db;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Min;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -28,5 +27,8 @@ public class SellerEntity {
 
     @Column(name = "registration_date", nullable = false)
     private LocalDateTime registrationDate;
+
+    @Column(name = "deleted", nullable = false)
+    private boolean deleted = false;
 
 }

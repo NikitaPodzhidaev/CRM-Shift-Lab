@@ -32,12 +32,14 @@ public class SellerService {
     public Seller getSellerById(Long id){
         SellerEntity searchedEntity = sellerRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Not found seller by id = " + id));
+        if(searchedEntity.isDeleted()) throw new EntityNotFoundException("Not found active seller by id = " + id);
         return sellerMapper.toDomain(searchedEntity);
     }
 
     public List<Seller> getAllSellers(){
         List<SellerEntity> allSearchedSellers = sellerRepository.findAll();
         return allSearchedSellers.stream()
+                .filter(sellerEntity -> !sellerEntity.isDeleted())
                 .map(sellerMapper::toDomain)
                 .toList();
     }
@@ -45,6 +47,7 @@ public class SellerService {
     public Seller updateSeller(Long id, String name, String contactInfo){
         SellerEntity existingEntity = sellerRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Not found seller by id = " + id));
+        if(existingEntity.isDeleted()) throw new EntityNotFoundException("Not found active seller by id = " + id);
 
         SellerEntity updatedEntity = SellerEntity.builder()
                 .id(existingEntity.getId())
@@ -61,7 +64,9 @@ public class SellerService {
     public void deleteSeller(Long id){
         SellerEntity existingEntity = sellerRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Not found seller by id = " + id));
-        sellerRepository.delete(existingEntity);
+        existingEntity.setDeleted(true);
+        sellerRepository.save(existingEntity);
+
     }
 
 

@@ -1,9 +1,11 @@
 package shift.lab.crm.transaction.domain;
 
 import shift.lab.crm.common.exception.DomainValidationException;
+import shift.lab.crm.transaction.exception.UnknownPaymentTypeException;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.Set;
 
 public record Transaction(Long id, Long sellerId, BigDecimal amount, String paymentType,
                           LocalDateTime transactionDate) {
@@ -14,8 +16,16 @@ public record Transaction(Long id, Long sellerId, BigDecimal amount, String paym
 
     public Transaction {
         validateAmount(amount);
-        //validatePaymentType(paymentType);
+        validatePaymentType(paymentType);
         validateTransactionDate(transactionDate);
+    }
+
+    private void validatePaymentType(String paymentType){
+        Set<String> validPaymentTypeSet = Set.of("CASH", "CARD", "TRANSFER");
+        if(!validPaymentTypeSet.contains(paymentType)){
+            throw new UnknownPaymentTypeException("Unknown payment type: " + paymentType + ". Payment type must be in: " +
+                    "CASH, CARD, TRANSFER");
+        }
     }
 
     private void validateAmount(BigDecimal amount) {
